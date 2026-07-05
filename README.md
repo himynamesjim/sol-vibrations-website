@@ -76,22 +76,22 @@ The seed creates programs, events, posts, team members, site settings, and two l
 2. Copy the pooled connection string (`...-pooler.neon.tech`) — serverless needs the pooler.
 3. Set it as `DATABASE_URI` in Vercel.
 
-### 2. Cloudflare R2 (media storage)
+### 2. Vercel Blob (media storage)
 
-1. Create an R2 bucket (e.g. `sol-vibrations-media`).
-2. Create an R2 API token with Object Read & Write on that bucket.
-3. Set in Vercel:
-   - `S3_ENDPOINT` = `https://<account-id>.r2.cloudflarestorage.com`
-   - `S3_BUCKET` = `sol-vibrations-media`
-   - `S3_ACCESS_KEY_ID` / `S3_SECRET_ACCESS_KEY` = from the token
-   - `S3_REGION` = `auto`
+1. In the Vercel project: **Storage → Create Database → Blob**, attach it to the project.
+   Vercel injects `BLOB_READ_WRITE_TOKEN` automatically and the app switches to Blob storage.
+2. If media was previously uploaded while running on local storage, push those files into the store once:
+   ```sh
+   BLOB_READ_WRITE_TOKEN=vercel_blob_rw_... node scripts/upload-media-to-blob.mjs
+   ```
 
-(AWS S3 works identically — set `S3_REGION` to the real region and leave `S3_ENDPOINT` empty.)
+(An S3-compatible bucket also works — set the `S3_*` vars instead; the Blob token takes precedence when both exist.)
 
 ### 3. Vercel project
 
 1. Import the repo, framework preset **Next.js**.
-2. Set env vars: `DATABASE_URI`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL` (the production URL), all `S3_*`, `EMAIL_FROM`.
+2. Set env vars: `DATABASE_URI` (Neon pooled URI), `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL` (the production URL), `EMAIL_FROM`, and optionally `RESEND_API_KEY`.
+   The build **fails at "Generating static pages"** with `missing secret key` / DB errors if these are absent — pages prerender against the real database at build time.
 3. Deploy.
 
 ### 4. Production schema

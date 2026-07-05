@@ -1,6 +1,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -22,11 +23,13 @@ import { SiteSettings } from './globals/SiteSettings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// All uploads live in S3-compatible storage (Cloudflare R2 or AWS S3) so they
-// survive serverless deploys. Locally, before a bucket is configured, files
-// fall back to the ./media directory — never rely on that in production.
+// Uploads live in cloud storage so they survive serverless deploys:
+// Vercel Blob when BLOB_READ_WRITE_TOKEN is set (production), or any
+// S3-compatible bucket via the S3_* vars. Locally, with neither configured,
+// files fall back to the ./media directory — never rely on that in production.
 // TODO: for lesson videos at scale, replace direct file playback with a
 // streaming service (Mux / Cloudflare Stream).
+const blobConfigured = Boolean(process.env.BLOB_READ_WRITE_TOKEN)
 const s3Configured = Boolean(process.env.S3_BUCKET)
 
 export default buildConfig({
@@ -65,7 +68,17 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    ...(s3Configured
+    ...(blobConfigured
+      ? [
+          vercelBlobStorage({
+            collections: {
+              media: true,
+            },
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+          }),
+        ]
+      : []),
+    ...(!blobConfigured && s3Configured
       ? [
           s3Storage({
             collections: {
