@@ -31,13 +31,6 @@ const richText = (paragraphs: string[]) => ({
   },
 })
 
-const daysFromNow = (days: number, hour = 18) => {
-  const d = new Date()
-  d.setDate(d.getDate() + days)
-  d.setHours(hour, 0, 0, 0)
-  return d.toISOString()
-}
-
 async function seed() {
   const payload = await getPayload({ config })
 
@@ -118,48 +111,6 @@ async function seed() {
       schedule: 'Monthly visits',
       active: true,
       order: 3,
-    },
-  })
-
-  await payload.create({
-    collection: 'events',
-    data: {
-      title: 'Spring Student Showcase',
-      slug: 'spring-student-showcase',
-      date: daysFromNow(21, 18),
-      location: 'Guthrie Green, Tulsa',
-      description: richText([
-        'Our students take the stage! Come cheer on every strummed chord and brave solo. Free and open to the public — bring the whole family.',
-      ]),
-      isPublic: true,
-    },
-  })
-
-  await payload.create({
-    collection: 'events',
-    data: {
-      title: 'Healing Music at the Tulsa VA',
-      slug: 'healing-music-tulsa-va',
-      date: daysFromNow(35, 14),
-      location: 'Jack C. Montgomery VA Medical Center',
-      description: richText([
-        'Our outreach ensemble visits the veterans hospital for an afternoon of familiar songs and good company.',
-      ]),
-      isPublic: true,
-    },
-  })
-
-  await payload.create({
-    collection: 'events',
-    data: {
-      title: 'Fall Enrollment Open House',
-      slug: 'fall-enrollment-open-house',
-      date: daysFromNow(60, 10),
-      location: 'Sol Vibrations Studio, Tulsa',
-      description: richText([
-        'Meet our mentors, try a guitar or ukulele, and sign up for the fall session. Walk-ins welcome!',
-      ]),
-      isPublic: true,
     },
   })
 
