@@ -96,12 +96,12 @@ export default async function AboutPage() {
               {team.map((member) => (
                 <li key={member.id} className="card overflow-hidden">
                   {member.photo && typeof member.photo !== 'number' && (
-                    <div className="relative aspect-square">
+                    <div className="relative aspect-[3/4]">
+                      {/* Original upload, not the landscape "card" crop — team photos are portraits */}
                       <MediaImage
                         media={member.photo}
-                        size="card"
                         fill
-                        className="object-cover"
+                        className="object-cover object-top"
                         sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       />
                     </div>
