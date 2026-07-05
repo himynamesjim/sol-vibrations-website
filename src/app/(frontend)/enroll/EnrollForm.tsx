@@ -8,6 +8,39 @@ type ProgramOption = { id: number; title: string; slug?: string | null }
 
 const steps = ['Parent or guardian', 'Student & program', 'Review & submit'] as const
 
+function YesNoQuestion({
+  name,
+  question,
+  onChange,
+}: {
+  name: string
+  question: string
+  onChange?: (value: 'yes' | 'no') => void
+}) {
+  return (
+    <fieldset>
+      <legend className="field-label">
+        {question} <span aria-hidden="true">*</span>
+      </legend>
+      <div className="mt-1 flex gap-6">
+        {(['yes', 'no'] as const).map((value) => (
+          <label key={value} className="flex cursor-pointer items-center gap-2">
+            <input
+              type="radio"
+              name={name}
+              value={value}
+              required
+              onChange={() => onChange?.(value)}
+              className="h-4 w-4 accent-sol-violet"
+            />
+            <span>{value === 'yes' ? 'Yes' : 'No'}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  )
+}
+
 export function EnrollForm({
   programs,
   preselectedProgram,
@@ -20,6 +53,7 @@ export function EnrollForm({
     { status: 'idle' },
   )
   const [step, setStep] = useState(0)
+  const [ownsInstrument, setOwnsInstrument] = useState<'yes' | 'no' | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
 
   const defaultProgramId = programs.find(
@@ -147,6 +181,31 @@ export function EnrollForm({
             <option value="undecided">Not sure yet</option>
           </select>
         </div>
+
+        <YesNoQuestion
+          name="priorLessons"
+          question="Has your student taken music lessons of any kind before?"
+        />
+        <YesNoQuestion name="playedGuitarBefore" question="Has your student played guitar before?" />
+        <YesNoQuestion
+          name="ownsInstrument"
+          question="Do you have your own stringed instrument?"
+          onChange={setOwnsInstrument}
+        />
+        {ownsInstrument === 'yes' && (
+          <div>
+            <label className="field-label" htmlFor="ownedInstrument">
+              If yes, which instrument?
+            </label>
+            <select id="ownedInstrument" name="ownedInstrument" defaultValue="guitar" className="field-input">
+              <option value="guitar">Guitar</option>
+              <option value="ukulele">Ukulele</option>
+              <option value="bass">Bass</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        )}
+
         <div>
           <label className="field-label" htmlFor="notes">
             Anything we should know?
@@ -159,14 +218,18 @@ export function EnrollForm({
             placeholder="Accessibility needs, scheduling constraints, musical experience…"
           />
         </div>
+        <p className="text-sm text-sol-ink/60">
+          Information about previous lessons and instrument ownership is only for instructor
+          knowledge and lesson preparations.
+        </p>
       </fieldset>
 
       {/* Step 3: review */}
       <div data-step="2" className={step === 2 ? '' : 'hidden'}>
         <h2 className="text-xl text-sol-deep">Almost there!</h2>
         <p className="mt-2 leading-relaxed">
-          Hit submit and we’ll be in touch within a few days. Lessons and instruments are always
-          100% free.
+          Hit “Enroll now” and we’ll be in touch within a few days. Lessons are free, instruments
+          are provided if needed, and no musical background is required.
         </p>
         {state.status === 'error' && (
           <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-800">
@@ -194,8 +257,8 @@ export function EnrollForm({
             Continue
           </button>
         ) : (
-          <button type="submit" disabled={isPending} className="btn-primary disabled:opacity-60">
-            {isPending ? 'Submitting…' : 'Submit enrollment'}
+          <button type="submit" disabled={isPending} className="btn-secondary disabled:opacity-60">
+            {isPending ? 'Submitting…' : 'Enroll now'}
           </button>
         )}
       </div>

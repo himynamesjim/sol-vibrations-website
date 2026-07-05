@@ -58,6 +58,57 @@ export const Enrollments: CollectionConfig = {
       label: 'Preferred instrument',
     },
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'priorLessons',
+          type: 'select',
+          label: 'Taken music lessons before?',
+          options: [
+            { label: 'Yes', value: 'yes' },
+            { label: 'No', value: 'no' },
+          ],
+        },
+        {
+          name: 'playedGuitarBefore',
+          type: 'select',
+          label: 'Played guitar before?',
+          options: [
+            { label: 'Yes', value: 'yes' },
+            { label: 'No', value: 'no' },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'ownsInstrument',
+          type: 'select',
+          label: 'Owns a stringed instrument?',
+          options: [
+            { label: 'Yes', value: 'yes' },
+            { label: 'No', value: 'no' },
+          ],
+        },
+        {
+          name: 'ownedInstrument',
+          type: 'select',
+          label: 'Which instrument?',
+          options: [
+            { label: 'Guitar', value: 'guitar' },
+            { label: 'Ukulele', value: 'ukulele' },
+            { label: 'Bass', value: 'bass' },
+            { label: 'Other', value: 'other' },
+          ],
+          admin: {
+            condition: (data) => data?.ownsInstrument === 'yes',
+          },
+        },
+      ],
+    },
+    {
       name: 'notes',
       type: 'textarea',
       label: 'Anything we should know',

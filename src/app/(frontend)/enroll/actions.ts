@@ -11,6 +11,12 @@ export type EnrollFormState = {
   message?: string
 }
 
+const yesNo = (value: unknown): 'yes' | 'no' | undefined =>
+  value === 'yes' || value === 'no' ? value : undefined
+
+const label = (value: string | undefined) =>
+  value ? value.charAt(0).toUpperCase() + value.slice(1) : '—'
+
 export async function submitEnrollment(
   _prev: EnrollFormState,
   formData: FormData,
@@ -42,6 +48,14 @@ export async function submitEnrollment(
   const program = Number(formData.get('program'))
   const instrument = String(formData.get('instrument') ?? '')
   const notes = String(formData.get('notes') ?? '').trim()
+  const priorLessons = yesNo(formData.get('priorLessons'))
+  const playedGuitarBefore = yesNo(formData.get('playedGuitarBefore'))
+  const ownsInstrument = yesNo(formData.get('ownsInstrument'))
+  const ownedInstrumentRaw = String(formData.get('ownedInstrument') ?? '')
+  const ownedInstrument =
+    ownsInstrument === 'yes'
+      ? (['guitar', 'ukulele', 'bass', 'other'] as const).find((v) => v === ownedInstrumentRaw)
+      : undefined
 
   if (
     !parentName ||
@@ -49,14 +63,17 @@ export async function submitEnrollment(
     !parentPhone ||
     !studentFirstName ||
     !Number.isFinite(studentAge) ||
-    !Number.isFinite(program)
+    !Number.isFinite(program) ||
+    !priorLessons ||
+    !playedGuitarBefore ||
+    !ownsInstrument
   ) {
     return { status: 'error', message: 'Please fill in all required fields.' }
   }
 
   try {
     const payload = await getPayloadClient()
-    await payload.create({
+    const enrollment = await payload.create({
       collection: 'enrollments',
       draft: false,
       overrideAccess: false,
@@ -68,10 +85,20 @@ export async function submitEnrollment(
         studentAge,
         program,
         instrument: (['guitar', 'ukulele', 'undecided'] as const).find((v) => v === instrument),
+        priorLessons,
+        playedGuitarBefore,
+        ownsInstrument,
+        ownedInstrument,
         notes: notes || undefined,
         status: 'pending',
       },
+      depth: 1,
     })
+
+    const programTitle =
+      enrollment.program && typeof enrollment.program === 'object'
+        ? enrollment.program.title
+        : 'Unknown program'
 
     const settings = await getSiteSettings()
 
@@ -92,8 +119,27 @@ export async function submitEnrollment(
     if (settings.email) {
       await sendEmail({
         to: settings.email,
-        subject: `New enrollment interest: ${studentFirstName} (age ${studentAge})`,
-        text: `Parent: ${parentName} · ${parentEmail} · ${parentPhone}\nSee the admin panel to triage.`,
+        subject: `New enrollment: ${studentFirstName} (age ${studentAge}) — ${programTitle}`,
+        text: [
+          'New enrollment interest form submission:',
+          '',
+          `Student:            ${studentFirstName}, age ${studentAge}`,
+          `Program interest:   ${programTitle}`,
+          `Preferred instrument: ${label(instrument === 'undecided' ? 'not sure yet' : instrument)}`,
+          '',
+          `Parent/guardian:    ${parentName}`,
+          `Email:              ${parentEmail}`,
+          `Phone:              ${parentPhone}`,
+          '',
+          `Taken music lessons before:  ${label(priorLessons)}`,
+          `Played guitar before:        ${label(playedGuitarBefore)}`,
+          `Owns a stringed instrument:  ${label(ownsInstrument)}`,
+          ...(ownsInstrument === 'yes' ? [`Which instrument:            ${label(ownedInstrument)}`] : []),
+          '',
+          notes ? `Notes: ${notes}` : 'Notes: (none)',
+          '',
+          'Triage this submission in the admin panel under Enrollments.',
+        ].join('\n'),
       })
     }
 

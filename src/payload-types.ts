@@ -568,6 +568,10 @@ export interface Enrollment {
   studentAge: number;
   program: number | Program;
   instrument?: ('guitar' | 'ukulele' | 'undecided') | null;
+  priorLessons?: ('yes' | 'no') | null;
+  playedGuitarBefore?: ('yes' | 'no') | null;
+  ownsInstrument?: ('yes' | 'no') | null;
+  ownedInstrument?: ('guitar' | 'ukulele' | 'bass' | 'other') | null;
   notes?: string | null;
   status: 'pending' | 'contacted' | 'enrolled' | 'waitlist' | 'closed';
   updatedAt: string;
@@ -933,6 +937,10 @@ export interface EnrollmentsSelect<T extends boolean = true> {
   studentAge?: T;
   program?: T;
   instrument?: T;
+  priorLessons?: T;
+  playedGuitarBefore?: T;
+  ownsInstrument?: T;
+  ownedInstrument?: T;
   notes?: T;
   status?: T;
   updatedAt?: T;
