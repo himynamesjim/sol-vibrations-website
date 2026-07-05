@@ -238,9 +238,9 @@ async function seed() {
       nonprofitBlurb:
         'Sol Vibrations is a 501(c)(3) nonprofit organization based in Tulsa, OK. Donations are tax-deductible to the extent allowed by law.',
       ein: 'XX-XXXXXXX',
-      email: 'hello@solvibrations.net',
-      phone: '(918) 555-0142',
-      address: 'PO Box 4321\nTulsa, OK 74101',
+      email: 'johndford77@gmail.com',
+      phone: '(918) 902-7245',
+      address: '6734 S 111th E Ave\nTulsa, OK 74133',
       navLinks: [
         { label: 'About', url: '/about' },
         { label: 'Programs', url: '/programs' },
@@ -258,8 +258,8 @@ async function seed() {
         { label: 'Donate', url: '/donate' },
       ],
       socialLinks: [
-        { platform: 'facebook', url: 'https://facebook.com/solvibrations' },
-        { platform: 'instagram', url: 'https://instagram.com/solvibrations' },
+        { platform: 'facebook', url: 'https://www.facebook.com/profile.php?id=61575955051143' },
+        { platform: 'youtube', url: 'https://www.youtube.com/channel/UCK9Nn0Q1Jz9t0shY1v1thQw' },
       ],
     },
   })
