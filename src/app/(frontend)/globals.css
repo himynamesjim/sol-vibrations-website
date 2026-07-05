@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Sol Vibrations brand — "Our sound is light, our light is sound." */
+  --color-sol-deep: #241344; /* deep violet — backgrounds, footer, hero */
+  --color-sol-violet: #8b43e6; /* vivid violet — primary buttons, accents */
+  --color-sol-violet-strong: #6b2fc4; /* darker violet — text links on light bg (AA) */
+  --color-sol-gold: #ffc83d; /* gold — highlights, sun motif, secondary CTAs */
+  --color-sol-cream: #fdfbf7; /* warm off-white page background */
+  --color-sol-ink: #1d1530; /* body text — near-black with violet cast */
+
+  --font-sans: var(--font-nunito-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-quicksand), var(--font-nunito-sans), ui-sans-serif, system-ui,
+    sans-serif;
+
+  --shadow-card: 0 4px 24px -6px rgb(36 19 68 / 0.12);
+  --shadow-card-hover: 0 10px 32px -8px rgb(36 19 68 / 0.2);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-sol-cream font-sans text-sol-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-bold tracking-tight;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-sol-violet);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-base font-bold transition-colors;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-base font-bold transition-colors bg-sol-violet text-white hover:bg-sol-violet-strong;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-base font-bold transition-colors bg-sol-gold text-sol-deep hover:bg-amber-300;
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-base font-bold transition-colors border-2 border-white/70 text-white hover:border-white hover:bg-white/10;
+  }
+
+  .card {
+    @apply rounded-2xl bg-white shadow-[var(--shadow-card)] transition-shadow hover:shadow-[var(--shadow-card-hover)];
+  }
+
+  .prose-sol {
+    @apply max-w-none text-base leading-relaxed;
+  }
+
+  .prose-sol h2 {
+    @apply mt-8 mb-3 text-2xl text-sol-deep;
+  }
+
+  .prose-sol h3 {
+    @apply mt-6 mb-2 text-xl text-sol-deep;
+  }
+
+  .prose-sol p {
+    @apply my-4;
+  }
+
+  .prose-sol ul {
+    @apply my-4 list-disc pl-6;
+  }
+
+  .prose-sol ol {
+    @apply my-4 list-decimal pl-6;
+  }
+
+  .prose-sol li {
+    @apply my-1;
+  }
+
+  .prose-sol a {
+    @apply font-semibold text-sol-violet-strong underline underline-offset-2 hover:text-sol-violet;
+  }
+
+  .prose-sol blockquote {
+    @apply my-6 border-l-4 border-sol-gold pl-4 italic;
+  }
+
+  .prose-sol img {
+    @apply my-6 rounded-2xl;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-semibold text-sol-deep;
+  }
+
+  .field-input {
+    @apply w-full rounded-xl border border-sol-deep/20 bg-white px-4 py-3 text-sol-ink placeholder:text-sol-ink/40 focus:border-sol-violet;
+  }
+}
