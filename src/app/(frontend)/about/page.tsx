@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 import { MediaImage } from '@/components/MediaImage'
 import { PageHero } from '@/components/PageHero'
@@ -36,21 +37,46 @@ export default async function AboutPage() {
           community too often forgets: elders in nursing homes and veterans in hospitals.
         </p>
         <p className="mt-4 leading-relaxed">
-          Every week, our volunteer mentors teach free guitar and ukulele lessons to children in
-          underserved neighborhoods. Instruments are provided at no cost. And as our students grow,
-          they join us in bringing live, healing music to audiences who need it most — learning that
-          their new gift is something worth sharing.
+          We offer free guitar and ukulele lessons to children in underserved communities.
+          Instruments are provided at no cost. And as our students grow, they join us in bringing
+          live, healing music to audiences who need it most — learning that their new gift is
+          something worth sharing.
         </p>
+      </section>
 
-        <h2 className="mt-12 text-3xl text-sol-deep">Our story</h2>
-        <p className="mt-4 leading-relaxed">
-          Sol Vibrations began with a simple observation: music changes lives, but access to it
-          doesn’t reach everyone. What started as a handful of donated guitars and one weekly class
-          has grown into a community of students, families, mentors, and audiences connected by
-          sound.
-        </p>
+      <section className="bg-white" aria-labelledby="story-heading">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2">
+          <Image
+            src="/founders.jpg"
+            alt="John and Jessica Ford, co-founders of Sol Vibrations"
+            width={1200}
+            height={1801}
+            className="mx-auto w-full max-w-md rounded-2xl shadow-[var(--shadow-card)]"
+            sizes="(min-width: 768px) 50vw, 100vw"
+          />
+          <div>
+            <h2 id="story-heading" className="text-3xl text-sol-deep">
+              Our story
+            </h2>
+            <p className="mt-4 leading-relaxed">
+              Sol Vibrations was founded by John and Jessica Ford — a professional musician and a
+              career educator who share one conviction: music is medicine. They launched the
+              organization with a simple but powerful ceremony on the Summer Solstice of 2025,
+              dedicating their work to love, light, and transformation.
+            </p>
+            <p className="mt-4 leading-relaxed">
+              John’s own journey — from overcoming personal struggles with addiction to
+              rediscovering music as medicine — fuels the heart of Sol Vibrations. Jessica’s
+              fifteen-plus years of guiding students with patience, insight, and care shape how we
+              teach. Together they built a place where every lesson, every song, and every visit
+              carries the same intention: healing through sound.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <div className="mt-12 rounded-2xl bg-sol-gold/20 p-6">
+      <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+        <div className="rounded-2xl bg-sol-gold/20 p-6">
           <h2 className="text-xl text-sol-deep">A 501(c)(3) nonprofit</h2>
           <p className="mt-2 text-sm leading-relaxed">
             {settings.nonprofitBlurb ||

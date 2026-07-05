@@ -1,6 +1,8 @@
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
+import { seedFounders } from './founders'
+
 /**
  * Seeds a realistic starting dataset: an admin, a mentor, programs, events,
  * posts, team members, and site settings. Run with `pnpm seed`.
@@ -205,30 +207,7 @@ async function seed() {
     })
   }
 
-  const team = [
-    {
-      name: 'Jim Peterson',
-      title: 'Founder & Executive Director',
-      bio: 'Musician, teacher, and believer that every kid deserves a chance to make music.',
-      order: 1,
-    },
-    {
-      name: 'Marcus Rivera',
-      title: 'Lead Guitar Mentor',
-      bio: 'Twenty years of playing, five years of teaching, endless patience for beginners.',
-      order: 2,
-    },
-    {
-      name: 'Dana Whitfield',
-      title: 'Outreach Coordinator',
-      bio: 'Organizes our healing music visits and keeps every performance running on time.',
-      order: 3,
-    },
-  ]
-
-  for (const member of team) {
-    await payload.create({ collection: 'team-members', data: member })
-  }
+  await seedFounders(payload)
 
   await payload.updateGlobal({
     slug: 'site-settings',
