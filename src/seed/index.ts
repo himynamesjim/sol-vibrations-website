@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 
 import { seedFounders } from './founders'
 import { seedGallery } from './gallery'
+import { seedFirstPost } from './posts'
 
 /**
  * Seeds a realistic starting dataset: an admin, a mentor, programs, events,
@@ -51,7 +52,7 @@ async function seed() {
   const admin = await payload.create({
     collection: 'users',
     data: {
-      name: 'Sol Admin',
+      name: 'John Ford',
       email: 'admin@solvibrations.net',
       password: 'changeme123',
       role: 'admin',
@@ -162,51 +163,7 @@ async function seed() {
     },
   })
 
-  const posts = [
-    {
-      title: 'Welcome to the new Sol Vibrations website',
-      slug: 'welcome-to-the-new-website',
-      excerpt:
-        'A new home for our mission: free music lessons for Tulsa kids and healing music for our community.',
-      body: [
-        'We’re thrilled to launch our new website — a home for everything Sol Vibrations: programs, events, stories, and ways to get involved.',
-        'Enrollment for lessons is open year-round, and our event calendar is filling up. Take a look around, and come make some noise with us.',
-      ],
-    },
-    {
-      title: 'Twelve new guitars, twelve new guitarists',
-      slug: 'twelve-new-guitars',
-      excerpt: 'Thanks to a generous donor, a dozen students just received their first guitar.',
-      body: [
-        'There are few moments better than watching a kid open a guitar case for the first time and realize it’s theirs.',
-        'Thanks to a generous local donor, twelve of our graduating students received instruments of their own this month. Every practice session at home starts here.',
-      ],
-    },
-    {
-      title: 'An afternoon of songs at the VA',
-      slug: 'afternoon-of-songs-at-the-va',
-      excerpt: 'Our outreach ensemble shared two hours of music and memories with Tulsa veterans.',
-      body: [
-        'Last weekend our healing music ensemble visited the Jack C. Montgomery VA Medical Center. We played the songs they asked for — and heard the stories behind every request.',
-        'This is why we do outreach: music opens doors that conversation alone can’t.',
-      ],
-    },
-  ]
-
-  for (const post of posts) {
-    await payload.create({
-      collection: 'posts',
-      data: {
-        title: post.title,
-        slug: post.slug,
-        publishedDate: new Date().toISOString(),
-        author: admin.id,
-        excerpt: post.excerpt,
-        body: richText(post.body),
-        _status: 'published',
-      },
-    })
-  }
+  await seedFirstPost(payload, admin.id)
 
   await seedFounders(payload)
   await seedGallery(payload)
