@@ -99,11 +99,17 @@ The seed creates programs, events, posts, team members, site settings, and two l
 Dev mode pushes schema automatically; production does not. For the first deploy and any collection change afterward:
 
 ```sh
-pnpm payload migrate:create   # commit the generated migration
-pnpm payload migrate          # run against production DATABASE_URI
+pnpm payload migrate:create                                    # commit the generated migration
+NODE_ENV=production DATABASE_URI=<neon-uri> pnpm payload migrate   # run against production
 ```
 
-Then seed production (or create your first admin at `/admin` on first visit).
+Then seed production (or create your first admin at `/admin` on first visit):
+
+```sh
+NODE_ENV=production DATABASE_URI=<neon-uri> pnpm seed
+```
+
+**`NODE_ENV=production` matters**: without it, `payload run`/CLI commands start in dev mode and try to push schema changes directly to the database, which conflicts with the migrated schema.
 
 ## Content model (Phase 1)
 
