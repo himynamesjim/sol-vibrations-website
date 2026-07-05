@@ -1,6 +1,18 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 
-const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000')
+// Tolerate NEXT_PUBLIC_SITE_URL values without a protocol (e.g. "example.com").
+function parseSiteUrl(raw) {
+  const value = (raw || '').trim()
+  if (!value) return new URL('http://localhost:3000')
+  try {
+    return new URL(value.includes('://') ? value : `https://${value}`)
+  } catch {
+    console.warn(`Invalid NEXT_PUBLIC_SITE_URL "${raw}" — falling back to localhost.`)
+    return new URL('http://localhost:3000')
+  }
+}
+
+const siteUrl = parseSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

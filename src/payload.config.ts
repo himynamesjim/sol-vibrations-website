@@ -19,6 +19,7 @@ import { TeamMembers } from './collections/TeamMembers'
 import { Users } from './collections/Users'
 import { DonateSettings } from './globals/DonateSettings'
 import { SiteSettings } from './globals/SiteSettings'
+import { getSiteUrl } from './utilities/siteUrl'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -57,7 +58,7 @@ export default buildConfig({
   globals: [SiteSettings, DonateSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
-  serverURL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  serverURL: getSiteUrl(),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

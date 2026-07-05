@@ -1,11 +1,12 @@
 import type { MetadataRoute } from 'next'
 
 import { getPayloadClient } from '@/utilities/data'
+import { getSiteUrl } from '@/utilities/siteUrl'
 
 export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const base = getSiteUrl()
   const payload = await getPayloadClient()
 
   const staticRoutes: MetadataRoute.Sitemap = [

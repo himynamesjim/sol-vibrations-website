@@ -5,6 +5,7 @@ import React from 'react'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { getSiteSettings } from '@/utilities/data'
+import { getSiteUrl } from '@/utilities/siteUrl'
 
 import './globals.css'
 
@@ -27,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     'Sol Vibrations is a Tulsa, OK 501(c)(3) nonprofit providing free guitar and ukulele lessons to children in underserved communities and bringing healing music to nursing homes and veterans hospitals.'
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+    metadataBase: new URL(getSiteUrl()),
     title: {
       default: `${siteName} — Free Music Lessons for Tulsa Kids`,
       template: `%s — ${siteName}`,
