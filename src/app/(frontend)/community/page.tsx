@@ -103,6 +103,36 @@ export default function CommunityPage() {
           </figure>
         </div>
       </section>
+
+      {/* YouTube */}
+      <section className="bg-sol-deep text-white" aria-labelledby="videos-heading">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 id="videos-heading" className="text-3xl">
+              Watch us in action
+            </h2>
+            <a
+              href="https://www.youtube.com/channel/UCK9Nn0Q1Jz9t0shY1v1thQw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display font-bold text-sol-gold hover:underline"
+            >
+              Visit our YouTube channel →
+            </a>
+          </div>
+          <div className="mt-8 overflow-hidden rounded-2xl bg-black shadow-xl">
+            {/* Channel uploads playlist (UC… → UU…) — always shows the latest videos */}
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/videoseries?list=UUK9Nn0Q1Jz9t0shY1v1thQw"
+              title="Sol Vibrations on YouTube"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="aspect-video w-full"
+            />
+          </div>
+        </div>
+      </section>
     </>
   )
 }

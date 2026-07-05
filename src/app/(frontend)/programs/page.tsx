@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { ProgramCard } from '@/components/cards'
+import { MediaImage } from '@/components/MediaImage'
 import { PageHero } from '@/components/PageHero'
 import { RichText } from '@/components/RichText'
 import { getActivePrograms } from '@/utilities/data'
@@ -37,9 +38,25 @@ export default async function ProgramsPage() {
         {programs.map(
           (program) =>
             program.body && (
-              <article key={program.id} className="mt-16 max-w-3xl" id={program.slug ?? undefined}>
-                <h2 className="text-2xl text-sol-deep">{program.title}</h2>
-                <RichText data={program.body} className="prose-sol mt-3" />
+              <article
+                key={program.id}
+                id={program.slug ?? undefined}
+                className="mt-16 grid items-center gap-8 md:grid-cols-[1.3fr_1fr]"
+              >
+                <div>
+                  <h2 className="text-2xl text-sol-deep">{program.title}</h2>
+                  <RichText data={program.body} className="prose-sol mt-3" />
+                </div>
+                {program.image && typeof program.image !== 'number' && (
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-[var(--shadow-card)]">
+                    <MediaImage
+                      media={program.image}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 768px) 40vw, 100vw"
+                    />
+                  </div>
+                )}
               </article>
             ),
         )}

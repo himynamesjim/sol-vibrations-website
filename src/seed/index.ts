@@ -97,23 +97,6 @@ async function seed() {
     },
   })
 
-  await payload.create({
-    collection: 'programs',
-    data: {
-      title: 'Healing Music Outreach',
-      slug: 'healing-music-outreach',
-      summary:
-        'Our mentors and advanced students bring live music to nursing homes and veterans hospitals across Tulsa.',
-      body: richText([
-        'Music heals. Our outreach ensembles visit nursing homes and veterans hospitals to share songs, stories, and connection — and our students learn that their gift is something worth giving away.',
-      ]),
-      ageRange: 'Advanced students & volunteers',
-      schedule: 'Monthly visits',
-      active: true,
-      order: 3,
-    },
-  })
-
   await seedFirstPost(payload, admin.id)
 
   await seedFounders(payload)
