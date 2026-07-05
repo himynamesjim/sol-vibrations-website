@@ -2,6 +2,7 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 
 import { seedFounders } from './founders'
+import { seedGallery } from './gallery'
 
 /**
  * Seeds a realistic starting dataset: an admin, a mentor, programs, events,
@@ -208,6 +209,7 @@ async function seed() {
   }
 
   await seedFounders(payload)
+  await seedGallery(payload)
 
   await payload.updateGlobal({
     slug: 'site-settings',

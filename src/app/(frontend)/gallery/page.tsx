@@ -36,9 +36,10 @@ export default async function GalleryPage() {
               <li key={item.id} className="break-inside-avoid">
                 <figure className="card overflow-hidden">
                   {item.image && typeof item.image !== 'number' && (
+                    // Original upload (not the fixed-crop card rendition) so the
+                    // masonry keeps each photo's natural aspect ratio.
                     <MediaImage
                       media={item.image}
-                      size="card"
                       className="w-full"
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     />
