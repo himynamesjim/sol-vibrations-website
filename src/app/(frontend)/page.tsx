@@ -22,13 +22,15 @@ export default async function HomePage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center opacity-45"
+          className="object-cover object-center opacity-70"
         />
         {/* Violet wash keeps the photo faded and the headline AA-readable */}
         <div
-          className="absolute inset-0 bg-gradient-to-r from-sol-deep via-sol-deep/80 to-sol-deep/35"
+          className="absolute inset-0 bg-gradient-to-r from-sol-deep via-sol-deep/60 to-sol-deep/10"
           aria-hidden="true"
         />
+        {/* Extra scrim on small screens, where text spans the full photo */}
+        <div className="absolute inset-0 bg-sol-deep/45 sm:hidden" aria-hidden="true" />
         <SunMotif className="pointer-events-none absolute -right-24 -top-24 h-[28rem] w-[28rem] opacity-40 sm:-right-16 sm:-top-16 sm:opacity-60" />
         <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
           <p className="font-display text-lg font-semibold text-sol-gold">
