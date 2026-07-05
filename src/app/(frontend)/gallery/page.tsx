@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
-import { MediaImage } from '@/components/MediaImage'
 import { PageHero } from '@/components/PageHero'
 import { getPayloadClient } from '@/utilities/data'
+import { GalleryGrid, type GalleryPhoto } from './GalleryGrid'
 
 export const revalidate = 3600
 
@@ -20,39 +20,24 @@ export default async function GalleryPage() {
     limit: 60,
   })
 
+  // Serialize to a minimal client-safe shape (original upload, not the
+  // fixed-crop card rendition, so the masonry keeps natural aspect ratios).
+  const photos: GalleryPhoto[] = items.flatMap((item) => {
+    if (!item.image || typeof item.image === 'number') return []
+    const { url, width, height, alt } = item.image
+    if (!url || !width || !height) return []
+    return [{ id: item.id, url, width, height, alt: alt || '', caption: item.caption }]
+  })
+
   return (
     <>
-      <PageHero
-        title="Gallery"
-        intro="Lessons, recitals, and the smiles in between."
-      />
+      <PageHero title="Gallery" intro="Lessons, recitals, and the smiles in between." />
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        {items.length === 0 ? (
+        {photos.length === 0 ? (
           <p className="text-lg">Photos are coming soon!</p>
         ) : (
-          <ul className="columns-1 gap-5 sm:columns-2 lg:columns-3 [&>li]:mb-5">
-            {items.map((item) => (
-              <li key={item.id} className="break-inside-avoid">
-                <figure className="card overflow-hidden">
-                  {item.image && typeof item.image !== 'number' && (
-                    // Original upload (not the fixed-crop card rendition) so the
-                    // masonry keeps each photo's natural aspect ratio.
-                    <MediaImage
-                      media={item.image}
-                      className="w-full"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                  )}
-                  {item.caption && (
-                    <figcaption className="px-5 py-4 text-sm text-sol-ink/80">
-                      {item.caption}
-                    </figcaption>
-                  )}
-                </figure>
-              </li>
-            ))}
-          </ul>
+          <GalleryGrid photos={photos} />
         )}
       </section>
     </>
