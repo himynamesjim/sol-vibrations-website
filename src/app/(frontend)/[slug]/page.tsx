@@ -13,6 +13,7 @@ const reservedSlugs = new Set([
   'about',
   'programs',
   'community',
+  'healing',
   'events',
   'news',
   'gallery',

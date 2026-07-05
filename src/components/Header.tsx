@@ -8,6 +8,7 @@ const defaultNav = [
   { label: 'About', url: '/about' },
   { label: 'Programs', url: '/programs' },
   { label: 'Community', url: '/community' },
+  { label: 'Healing', url: '/healing' },
   { label: 'Events', url: '/events' },
   { label: 'News', url: '/news' },
   { label: 'Gallery', url: '/gallery' },
@@ -35,12 +36,12 @@ export async function Header() {
           />
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-1 xl:flex">
           {navLinks.map((link) => (
             <Link
               key={link.url}
               href={link.url ?? '/'}
-              className="rounded-full px-3.5 py-2 font-display font-semibold text-white/85 transition-colors hover:bg-white/10 hover:text-white"
+              className="rounded-full px-3 py-2 font-display font-semibold text-white/85 transition-colors hover:bg-white/10 hover:text-white"
             >
               {link.label}
             </Link>

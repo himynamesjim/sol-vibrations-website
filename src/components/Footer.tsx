@@ -7,6 +7,7 @@ const defaultFooterLinks = [
   { label: 'About', url: '/about' },
   { label: 'Programs', url: '/programs' },
   { label: 'Community', url: '/community' },
+  { label: 'Healing', url: '/healing' },
   { label: 'Events', url: '/events' },
   { label: 'Enroll', url: '/enroll' },
   { label: 'Donate', url: '/donate' },
