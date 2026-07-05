@@ -12,6 +12,7 @@ type Props = { params: Promise<{ slug: string }> }
 const reservedSlugs = new Set([
   'about',
   'programs',
+  'community',
   'events',
   'news',
   'gallery',

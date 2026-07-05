@@ -7,6 +7,7 @@ import { MobileNav } from './MobileNav'
 const defaultNav = [
   { label: 'About', url: '/about' },
   { label: 'Programs', url: '/programs' },
+  { label: 'Community', url: '/community' },
   { label: 'Events', url: '/events' },
   { label: 'News', url: '/news' },
   { label: 'Gallery', url: '/gallery' },

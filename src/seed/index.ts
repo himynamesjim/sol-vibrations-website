@@ -133,6 +133,7 @@ async function seed() {
       navLinks: [
         { label: 'About', url: '/about' },
         { label: 'Programs', url: '/programs' },
+        { label: 'Community', url: '/community' },
         { label: 'Events', url: '/events' },
         { label: 'News', url: '/news' },
         { label: 'Gallery', url: '/gallery' },
@@ -141,6 +142,7 @@ async function seed() {
       footerLinks: [
         { label: 'About', url: '/about' },
         { label: 'Programs', url: '/programs' },
+        { label: 'Community', url: '/community' },
         { label: 'Events', url: '/events' },
         { label: 'News', url: '/news' },
         { label: 'Enroll', url: '/enroll' },
