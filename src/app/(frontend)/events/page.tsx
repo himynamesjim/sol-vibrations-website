@@ -3,6 +3,9 @@ import type { Metadata } from 'next'
 import { EventCard } from '@/components/cards'
 import { PageHero } from '@/components/PageHero'
 import { getPastEvents, getUpcomingEvents } from '@/utilities/data'
+import { getPlaylistVideos } from '@/utilities/youtube'
+
+import { VideoGallery } from './VideoGallery'
 
 export const revalidate = 600
 
@@ -13,7 +16,11 @@ export const metadata: Metadata = {
 }
 
 export default async function EventsPage() {
-  const [upcoming, past] = await Promise.all([getUpcomingEvents(24), getPastEvents(12)])
+  const [upcoming, past, videos] = await Promise.all([
+    getUpcomingEvents(24),
+    getPastEvents(12),
+    getPlaylistVideos(),
+  ])
 
   return (
     <>
@@ -50,6 +57,23 @@ export default async function EventsPage() {
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
+          </div>
+        </section>
+      )}
+
+      {videos.length > 0 && (
+        <section
+          className="mx-auto max-w-6xl px-4 py-16 sm:px-6"
+          aria-labelledby="videos-heading"
+        >
+          <h2 id="videos-heading" className="text-3xl text-sol-deep">
+            Watch
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg">
+            Performances, lessons, and moments from the Sol Vibrations community — newest first.
+          </p>
+          <div className="mt-8">
+            <VideoGallery videos={videos} />
           </div>
         </section>
       )}

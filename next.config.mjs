@@ -24,6 +24,8 @@ const nextConfig = {
         hostname: siteUrl.hostname,
         port: siteUrl.port || '',
       },
+      // YouTube video thumbnails (Events page video gallery).
+      { protocol: 'https', hostname: 'i.ytimg.com' },
     ],
   },
   webpack: (webpackConfig) => {
