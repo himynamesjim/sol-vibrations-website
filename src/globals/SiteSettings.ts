@@ -39,7 +39,7 @@ export const SiteSettings: GlobalConfig = {
               name: 'ein',
               type: 'text',
               label: 'EIN',
-              defaultValue: 'XX-XXXXXXX',
+              defaultValue: '41-3362002',
               admin: { description: 'Employer Identification Number, shown in the footer.' },
             },
           ],

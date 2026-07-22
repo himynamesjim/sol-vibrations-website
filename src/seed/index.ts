@@ -109,7 +109,7 @@ async function seed() {
       tagline: 'Our sound is light, our light is sound.',
       nonprofitBlurb:
         'Sol Vibrations is a 501(c)(3) nonprofit organization based in Tulsa, OK. Donations are tax-deductible to the extent allowed by law.',
-      ein: 'XX-XXXXXXX',
+      ein: '41-3362002',
       email: 'johndford77@gmail.com',
       phone: '(918) 902-7245',
       address: '6734 S 111th E Ave\nTulsa, OK 74133',

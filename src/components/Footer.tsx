@@ -22,8 +22,12 @@ const socialLabels: Record<string, string> = {
   x: 'X (Twitter)',
 }
 
+const DEFAULT_EIN = '41-3362002'
+
 export async function Footer() {
   const settings = await getSiteSettings()
+  // Older site-settings records hold the 'XX-XXXXXXX' placeholder — only show a real EIN.
+  const ein = settings.ein && /^\d{2}-\d{7}$/.test(settings.ein) ? settings.ein : DEFAULT_EIN
   const footerLinks =
     settings.footerLinks && settings.footerLinks.length > 0
       ? settings.footerLinks
@@ -97,7 +101,7 @@ export async function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-6 text-xs leading-relaxed text-white/60 sm:px-6">
           <p>{settings.nonprofitBlurb}</p>
-          {settings.ein && <p className="mt-1">EIN: {settings.ein}</p>}
+          <p className="mt-1">EIN: {ein}</p>
           <p className="mt-1">
             © {new Date().getFullYear()} {settings.siteName || 'Sol Vibrations'}. Tulsa, Oklahoma.
           </p>

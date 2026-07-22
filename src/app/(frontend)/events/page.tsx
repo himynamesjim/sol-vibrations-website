@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 
 import { EventCard } from '@/components/cards'
 import { PageHero } from '@/components/PageHero'
+import { YouTubeGallery } from '@/components/YouTubeGallery'
 import { getPastEvents, getUpcomingEvents } from '@/utilities/data'
+import { EVENTS_PLAYLIST_URL, getEventsPlaylistVideos } from '@/utilities/youtube'
 
 export const revalidate = 600
 
@@ -13,7 +15,11 @@ export const metadata: Metadata = {
 }
 
 export default async function EventsPage() {
-  const [upcoming, past] = await Promise.all([getUpcomingEvents(24), getPastEvents(12)])
+  const [upcoming, past, videos] = await Promise.all([
+    getUpcomingEvents(24),
+    getPastEvents(12),
+    getEventsPlaylistVideos(),
+  ])
 
   return (
     <>
@@ -49,6 +55,29 @@ export default async function EventsPage() {
               {past.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {videos.length > 0 && (
+        <section className="bg-sol-deep text-white" aria-labelledby="event-videos-heading">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 id="event-videos-heading" className="text-3xl">
+                Event videos
+              </h2>
+              <a
+                href={EVENTS_PLAYLIST_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-display font-bold text-sol-gold hover:underline"
+              >
+                View the full playlist on YouTube →
+              </a>
+            </div>
+            <div className="mt-8">
+              <YouTubeGallery videos={videos} />
             </div>
           </div>
         </section>

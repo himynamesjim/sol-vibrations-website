@@ -16,6 +16,8 @@ const siteUrl = parseSiteUrl(process.env.NEXT_PUBLIC_SITE_URL)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Stray lockfiles in parent directories can make Next mis-infer the workspace root.
+  outputFileTracingRoot: import.meta.dirname,
   images: {
     // Payload media URLs are absolute (serverURL), so allow our own host.
     remotePatterns: [
