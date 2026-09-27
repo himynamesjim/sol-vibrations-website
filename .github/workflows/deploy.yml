@@ -1,0 +1,44 @@
+name: Deploy to production
+
+# Fires a Vercel Deploy Hook to trigger a production deployment on demand.
+#
+# Vercel already auto-deploys on every push to `main`. This workflow is for
+# redeploying WITHOUT a code change — e.g. to publish CMS content edits or to
+# re-run a build — via the Actions tab ("Run workflow") button.
+#
+# Setup (one time):
+#   1. Vercel → Project → Settings → Git → Deploy Hooks: create a hook for the
+#      `main` branch and copy its URL.
+#   2. GitHub → Settings → Secrets and variables → Actions → New repository
+#      secret named VERCEL_DEPLOY_HOOK_URL with that URL.
+
+on:
+  workflow_dispatch:
+
+# Avoid overlapping deploys if the button is pressed repeatedly.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$DEPLOY_HOOK_URL" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK_URL secret is not set. Add it under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          echo "Triggering Vercel production deploy…"
+          code=$(curl -sS -o response.txt -w "%{http_code}" -X POST "$DEPLOY_HOOK_URL")
+          cat response.txt
+          echo ""
+          if [ "$code" -ge 200 ] && [ "$code" -lt 300 ]; then
+            echo "Deploy hook accepted (HTTP $code). Track progress in the Vercel dashboard."
+          else
+            echo "::error::Deploy hook returned HTTP $code"
+            exit 1
+          fi
