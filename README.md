@@ -94,7 +94,25 @@ The seed creates programs, events, posts, team members, site settings, and two l
    The build **fails at "Generating static pages"** with `missing secret key` / DB errors if these are absent — pages prerender against the real database at build time.
 3. Deploy.
 
-### 4. Production schema
+### 4. On-demand deploys (Deploy Hook)
+
+Vercel auto-deploys on every push to `main`. To redeploy **without** a code push
+(e.g. to publish CMS content edits), use a Deploy Hook:
+
+1. **Create the hook** — Vercel → Project → **Settings → Git → Deploy Hooks**.
+   Add a hook targeting the `main` branch and copy its URL.
+2. **One-click deploy from GitHub** — add the URL as a repo secret named
+   `VERCEL_DEPLOY_HOOK_URL` (GitHub → **Settings → Secrets and variables →
+   Actions → New repository secret**). Then run the **Deploy to production**
+   workflow from the **Actions** tab (`.github/workflows/deploy.yml`).
+3. **Deploy from your machine** —
+   ```sh
+   VERCEL_DEPLOY_HOOK_URL="<hook url>" pnpm deploy
+   ```
+
+Treat the hook URL like a secret — anyone with it can trigger a deploy.
+
+### 5. Production schema
 
 Dev mode pushes schema automatically; production does not. For the first deploy and any collection change afterward:
 
