@@ -112,6 +112,39 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Featured video */}
+      <section className="bg-sol-deep text-white" aria-labelledby="listen-heading">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 md:grid-cols-2">
+          <div>
+            <h2 id="listen-heading" className="text-3xl">
+              Hear the healing in action
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-white/85">
+              Guitar and crystal singing bowls, woven together into a sound bath. This is the kind of
+              music we bring to classrooms, nursing homes, and veterans hospitals — calm, grounding,
+              and made to be felt.
+            </p>
+            <Link
+              href="/healing"
+              className="mt-5 inline-block font-display font-bold text-sol-gold hover:underline"
+            >
+              About our healing music →
+            </Link>
+          </div>
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            poster="/sound-bath-poster.jpg"
+            className="aspect-video w-full rounded-2xl bg-sol-deep shadow-[var(--shadow-card)]"
+          >
+            <source src="/sound-bath.mp4" type="video/mp4" />
+            Your browser doesn’t support embedded video —
+            <a href="/sound-bath.mp4">download it instead</a>.
+          </video>
+        </div>
+      </section>
+
       {/* Programs */}
       {programs.length > 0 && (
         <section className="bg-white" aria-labelledby="programs-heading">
